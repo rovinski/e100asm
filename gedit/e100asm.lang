@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language id="e100asm" _name="e100asm" version="2.0" _section="Source">
+  <metadata>
+    <property name="mimetypes">text/x-c;text/x-csrc</property>
+    <property name="globs">*.e</property>
+  </metadata>
+  <styles>
+    <style id="comment"       _name="Comment"            map-to="def:comment"       />
+    <style id="preprocessor"  _name="Preprocessor"       map-to="def:preprocessor"  />
+    <style id="included-file" _name="Included File"      map-to="def:string"        />
+    <style id="keyword"       _name="Keyword"            map-to="def:keyword"       />
+    <style id="type"          _name="Data Type"          map-to="def:type"          />
+    <style id="hexadecimal"   _name="Hexadecimal number" map-to="def:base-n-integer"/>
+    <style id="error"         _name="Error"              map-to="def:error"         />
+  </styles>
+  <definitions>
+    <context id="e100asm">
+      <include>
+
+        <context id="comment" style-ref="comment">
+          <start>\/\/</start>
+          <end>$</end>
+        </context>
+
+        <context ref="def:decimal"/>
+        <context id="hexadecimal" style-ref="hexadecimal">
+           <match extended="true">
+             (?&lt;![\w\.])0x[a-f0-9]+(?![\w\.])
+           </match>
+        </context>
+        <context id="invalid-constant" style-ref="error">
+          <match extended="true">
+            (?&lt;![\w\.])[1-9]+[^0-9]\w*(?![\w\.])
+          </match>
+        </context>
+        <context id="invalid-hexadecimal" style-ref="error">
+          <match extended="true">
+            (?&lt;![\w\.])0x[0-9a-f]*[^0-9a-f]\w*(?![\w\.])
+          </match>
+        </context>
+
+        <context id="opcodes" style-ref="keyword">
+          <keyword>halt</keyword>
+          <keyword>add</keyword>
+          <keyword>sub</keyword>
+          <keyword>mult</keyword>
+          <keyword>div</keyword>
+          <keyword>cp</keyword>
+          <keyword>and</keyword>
+          <keyword>or</keyword>
+          <keyword>not</keyword>
+          <keyword>sl</keyword>
+          <keyword>sr</keyword>
+          <keyword>cpfa</keyword>
+          <keyword>cpta</keyword>
+          <keyword>be</keyword>
+          <keyword>bne</keyword>
+          <keyword>blt</keyword>
+          <keyword>call</keyword>
+          <keyword>ret</keyword>
+          <keyword>cpdata</keyword>
+        </context>
+
+        <context id="types" style-ref="type">
+          <match extended="true">
+            ^[a-zA-Z]\w*(?![\w\.])
+          </match>
+        </context>
+
+        <context id="include" style-ref="preprocessor">
+          <match>^#include (".*")</match>
+          <include>
+            <context id="included-file"
+                     sub-pattern="1"
+                     style-ref="included-file"/>
+          </include>
+        </context>
+      </include>
+    </context>
+  </definitions>
+</language>
