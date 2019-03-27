@@ -7,9 +7,10 @@ To install the syntax highligting, you need to add the files to your Gedit langu
 
 ```
 mkdir -p ~/.local/share/gtksourceview-3.0/language-specs
-cp e100asm.lang ~/.local/share/gtksourceview-3.0/language-specs
+cp *.lang ~/.local/share/gtksourceview-3.0/language-specs
 ```
 
-The syntax files are now installed. However, when you open a .e file, Gedit will default to a language called "Eiffel" because Eiffel also uses the .e file extension. To change the syntax highlighting, open Gedit, look at the bottom left corner where it says "Eiffel", click the drop-down menu and select "e100asm".
+That's it! You should have syntax highlighting the next time you open a `.e` file in Gedit.
 
-If anyone finds a way to make e100asm the default for .e files (without root permissions), let me know.
+#### Aside
+The purpose of the `eiffel.lang` file is to ensure that e100asm is the default language for `.e` files. Gedit supports syntax highlighting for a language called "Eiffel", which also uses the .e extension. The included file will override Eiffel's extensions to not include .e files.
